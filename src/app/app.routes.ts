@@ -3,6 +3,7 @@ import { DashboardHome } from './pages/dashboard-home/dashboard-home';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { Login } from './pages/login/login';
 import { MisReservas } from './pages/mis-reservas/mis-reservas';
+import { AdminRestaurante } from './pages/admin-restaurante/admin-restaurante';
 
 export const routes: Routes = [
   {
@@ -18,8 +19,11 @@ export const routes: Routes = [
         path: '', 
         component: DashboardHome 
       },
-      { path: 'reservas',
+      { path: 'mis-reservas',
          component: MisReservas },
+      {path: 'admin-restaurante',
+        component: AdminRestaurante
+      },
 
     ]
   },

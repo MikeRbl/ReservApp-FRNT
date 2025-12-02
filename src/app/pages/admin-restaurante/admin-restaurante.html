@@ -1,0 +1,125 @@
+<div class="p-6">
+  <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div>
+      <h2 class="text-3xl font-bold text-primary">Admin Restaurante</h2>
+      <p class="text-gray-500">Gestiona tus solicitudes y ocupación</p>
+    </div>
+    
+    <div class="stats shadow bg-base-100">
+      <div class="stat">
+        <div class="stat-figure text-secondary">
+          <i class="fa-solid fa-clock text-2xl"></i>
+        </div>
+        <div class="stat-title">Pendientes</div>
+        <div class="stat-value text-secondary">2</div>
+        <div class="stat-desc">Requieren atención</div>
+      </div>
+      
+      <div class="stat">
+        <div class="stat-figure text-primary">
+          <i class="fa-solid fa-chair text-2xl"></i>
+        </div>
+        <div class="stat-title">Mesas Libres</div>
+        <div class="stat-value text-primary">4</div>
+        <div class="stat-desc">De 10 totales</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow-xl overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="table table-zebra w-full">
+        <thead class="bg-base-200 text-base-content">
+          <tr>
+            <th>Cliente</th>
+            <th>Fecha y Hora</th>
+            <th>Personas</th>
+            <th>Estado</th>
+            <th>Mesa</th>
+            <th class="text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reserva of reservas; track reserva.id) {
+            <tr class="hover">
+              <td>
+                <div class="font-bold">{{ reserva.cliente }}</div>
+                <div class="text-sm opacity-50">Cliente Frecuente</div>
+              </td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <i class="fa-regular fa-calendar"></i>
+                  {{ reserva.fecha }}
+                </div>
+              </td>
+              <td>
+                <div class="badge badge-ghost">{{ reserva.personas }} pax</div>
+              </td>
+              <td>
+                @if (reserva.estado === 'Pendiente') {
+                  <div class="badge badge-warning gap-1">
+                    <span class="loading loading-spinner loading-xs"></span> Pendiente
+                  </div>
+                } @else {
+                  <div class="badge badge-success text-white gap-1">
+                    <i class="fa-solid fa-check"></i> Aceptada
+                  </div>
+                }
+              </td>
+              <td class="font-mono text-sm">
+                {{ reserva.mesa || '---' }}
+              </td>
+              <td class="text-right">
+                @if (reserva.estado === 'Pendiente') {
+                  <button class="btn btn-sm btn-primary" (click)="abrirModalAsignar(reserva)">
+                    Asignar Mesa
+                  </button>
+                  <button class="btn btn-sm btn-ghost text-error ml-2" title="Rechazar">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<dialog id="modal_asignar_mesa" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">
+      Asignar mesa para <span class="text-primary">{{ reservaSeleccionada?.cliente }}</span>
+    </h3>
+    
+    <div class="alert alert-info shadow-sm mb-4 text-sm">
+      <i class="fa-solid fa-circle-info"></i>
+      <span>Solicitud para <strong>{{ reservaSeleccionada?.personas }} personas</strong>.</span>
+    </div>
+
+    <div class="form-control w-full">
+      <label class="label">
+        <span class="label-text">Selecciona una mesa disponible</span>
+      </label>
+      <select class="select select-bordered w-full" [(ngModel)]="mesaSeleccionadaId">
+        <option disabled selected [value]="null">-- Elige una mesa --</option>
+        @for (mesa of mesas; track mesa.id) {
+          <option [value]="mesa.id">
+            {{ mesa.numero }} ({{ mesa.ubicacion }} - Cap: {{ mesa.capacidad }})
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="modal-action mt-6">
+      <form method="dialog">
+        <button class="btn btn-ghost">Cancelar</button>
+      </form>
+      <button class="btn btn-primary" (click)="confirmarAsignacion()">Confirmar Asignación</button>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

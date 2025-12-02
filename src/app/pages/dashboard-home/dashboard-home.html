@@ -1,23 +1,53 @@
-<h2 class="text-3xl font-bold mb-6 text-primary">Restaurantes Disponibles</h2>
+<div class="mb-10 text-center">
+  <h2 class="text-4xl font-bold mb-4">¿De qué tienes antojo hoy?</h2>
+  
+  <div class="join w-full max-w-xl shadow-lg relative">
+    <input class="input input-bordered join-item w-full text-lg" 
+           placeholder="Ej: Tengo ganas de unos tacos picantes..." 
+           [(ngModel)]="searchQuery"
+           (keyup.enter)="realizarBusqueda()"/>
+           
+    <button class="btn btn-primary join-item rounded-r-full" 
+            (click)="realizarBusqueda()"
+            [disabled]="estaBuscando">
+      @if(estaBuscando) {
+        <span class="loading loading-spinner"></span>
+      } @else {
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Buscar
+      }
+    </button>
+  </div>
+
+  @if(mensajeIA) {
+    <div class="mt-4 animate-bounce text-primary font-medium">
+      {{ mensajeIA }}
+    </div>
+  }
+</div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  
   @for (rest of restaurantes; track rest.id) {
-    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
       <figure>
         <img [src]="rest.imagen" alt="Restaurante" class="h-48 w-full object-cover" />
       </figure>
       <div class="card-body">
         <h2 class="card-title">
           {{ rest.nombre }}
-          <div class="badge badge-secondary">Nuevo</div>
+          <div class="flex gap-1">
+            @for(tag of rest.tags.slice(0,2); track tag) {
+              <div class="badge badge-xs badge-outline">{{ tag }}</div>
+            }
+          </div>
         </h2>
         <p class="text-gray-500"><i class="fa-solid fa-location-dot mr-2"></i>{{ rest.direccion }}</p>
         <div class="card-actions justify-end mt-4">
-          <button class="btn btn-primary btn-sm" (click)="reservar(rest.id)">Reservar Mesa</button>
+          <button class="btn btn-primary btn-sm" (click)="abrirModal(rest)">Reservar Mesa</button>
         </div>
       </div>
     </div>
   }
-
 </div>
+
+<dialog id="modal_reserva" class="modal">
+  </dialog>
