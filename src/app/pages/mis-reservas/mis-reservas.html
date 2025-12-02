@@ -1,0 +1,47 @@
+<div class="overflow-x-auto">
+  <h2 class="text-2xl font-bold mb-4">Historial de Reservas</h2>
+  
+  <table class="table table-zebra bg-base-100 shadow-lg rounded-box">
+    <thead>
+      <tr class="bg-base-200">
+        <th>Restaurante</th>
+        <th>Fecha y Hora</th>
+        <th>Personas</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      @for (reserva of reservas; track reserva.id) {
+        <tr>
+          <td class="font-bold">{{ reserva.restaurante }}</td>
+          <td>{{ reserva.fecha }}</td>
+          <td>{{ reserva.personas }}</td>
+          <td>
+            @if (reserva.estado === 'Aceptada') {
+              <div class="badge badge-success gap-2 text-white">
+                <i class="fa-solid fa-check"></i> Aceptada
+              </div>
+            } @else if (reserva.estado === 'Cancelada') {
+              <div class="badge badge-error gap-2 text-white">
+                <i class="fa-solid fa-xmark"></i> Cancelada
+              </div>
+            } @else {
+              <div class="badge badge-warning gap-2">
+                <i class="fa-regular fa-clock"></i> Pendiente
+              </div>
+            }
+          </td>
+          <td>
+            <button class="btn btn-ghost btn-xs text-error" 
+                    [disabled]="reserva.estado !== 'Pendiente'">
+              Cancelar
+            </button>
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</div>

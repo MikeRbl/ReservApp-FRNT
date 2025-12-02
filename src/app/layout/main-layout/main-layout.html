@@ -1,0 +1,50 @@
+<div class="drawer lg:drawer-open">
+  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+  
+  <div class="drawer-content flex flex-col bg-base-200 min-h-screen">
+    
+    <div class="navbar bg-base-100 shadow-md w-full">
+      <div class="flex-none lg:hidden">
+        <label for="my-drawer-2" class="btn btn-square btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </label>
+      </div>
+      <div class="flex-1 px-4 text-xl font-bold">Dashboard</div>
+      <div class="flex-none">
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img alt="User" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <router-outlet></router-outlet>
+    </div>
+  
+  </div> 
+  
+  <div class="drawer-side">
+    <label for="my-drawer-2" class="drawer-overlay"></label> 
+    <ul class="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
+  <li class="mb-4 text-2xl font-bold text-primary px-4">ReservasApp</li>
+  
+  <li>
+    <a routerLink="/dashboard" routerLinkActive="active">
+      <i class="fa-solid fa-utensils"></i> Restaurantes
+    </a>
+  </li>
+  <li>
+    <a routerLink="/dashboard/reservas" routerLinkActive="active">
+      <i class="fa-solid fa-list-check"></i> Mis Reservas
+    </a>
+  </li>
+  
+  <div class="divider"></div>
+  <li><a class="text-error"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+</ul>
+  </div>
+</div>
