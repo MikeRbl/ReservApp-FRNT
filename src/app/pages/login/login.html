@@ -1,32 +1,103 @@
 <div class="hero min-h-screen bg-base-200">
-  <div class="hero-content flex-col lg:flex-row-reverse">
-    <div class="text-center lg:text-left">
-      <h1 class="text-5xl font-bold">ReservasApp</h1>
-      <p class="py-6">Gestiona tus restaurantes y reservas de forma inteligente.</p>
+  <div class="hero-content flex-col lg:flex-row-reverse w-full max-w-5xl">
+    
+    <div class="text-center lg:text-left lg:w-1/2">
+      <h1 class="text-5xl font-bold text-primary">ReservasApp</h1>
+      <p class="py-6 text-lg">
+        La plataforma inteligente para gestionar tus antojos o administrar tu negocio gastronómico.
+      </p>
     </div>
-    <div class="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-      <form class="card-body">
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Email</span>
-          </label>
-          <input type="email" placeholder="email" class="input input-bordered" required />
+
+    <div class="card shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+      <div class="card-body">
+        
+        <div role="tablist" class="tabs tabs-boxed mb-6">
+          <a role="tab" class="tab" 
+             [class.tab-active]="vistaActual === 'login'"
+             (click)="vistaActual = 'login'">Ingresar</a>
+          <a role="tab" class="tab" 
+             [class.tab-active]="vistaActual !== 'login'"
+             (click)="vistaActual = 'registro-user'">Registrarse</a>
         </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Contraseña</span>
-          </label>
-          <input type="password" placeholder="password" class="input input-bordered" required />
-          <label class="label">
-            <a href="#" class="label-text-alt link link-hover">¿Olvidaste tu contraseña?</a>
-          </label>
-        </div>
-        <div class="form-control mt-6">
-          <button class="btn btn-primary" (click)="onLogin()">Iniciar Sesión</button>
-        </div>
-        <div class="divider">O</div>
-        <button class="btn btn-outline btn-secondary">Registrar Restaurante</button>
-      </form>
+
+        @if (vistaActual === 'login') {
+          <h2 class="text-2xl font-bold text-center mb-4">Iniciar Sesión</h2>
+          <div class="form-control">
+            <label class="label"><span class="label-text">Email</span></label>
+            <input type="email" [(ngModel)]="loginData.email" placeholder="usuario@email.com" class="input input-bordered" />
+          </div>
+          <div class="form-control">
+            <label class="label"><span class="label-text">Contraseña</span></label>
+            <input type="password" [(ngModel)]="loginData.password" placeholder="******" class="input input-bordered" />
+          </div>
+          <div class="form-control mt-6">
+            <button class="btn btn-primary" (click)="onLogin()" [disabled]="isLoading">
+              {{ isLoading ? 'Cargando...' : 'Entrar' }}
+            </button>
+          </div>
+        }
+
+        @if (vistaActual !== 'login') {
+          <div class="flex gap-2 mb-4 justify-center">
+            <button class="btn btn-sm" 
+                    [class.btn-neutral]="vistaActual === 'registro-user'"
+                    (click)="vistaActual = 'registro-user'">
+              <i class="fa-solid fa-user"></i> Personal
+            </button>
+            <button class="btn btn-sm" 
+                    [class.btn-neutral]="vistaActual === 'registro-restaurante'"
+                    (click)="vistaActual = 'registro-restaurante'">
+              <i class="fa-solid fa-store"></i> Restaurante
+            </button>
+          </div>
+        }
+
+        @if (vistaActual === 'registro-user') {
+          <div class="form-control">
+            <label class="label"><span class="label-text">Nombre Completo</span></label>
+            <input type="text" [(ngModel)]="registroUserData.nombre" class="input input-bordered" />
+          </div>
+          <div class="form-control">
+            <label class="label"><span class="label-text">Email</span></label>
+            <input type="email" [(ngModel)]="registroUserData.email" class="input input-bordered" />
+          </div>
+          <div class="form-control">
+            <label class="label"><span class="label-text">Contraseña</span></label>
+            <input type="password" [(ngModel)]="registroUserData.password" class="input input-bordered" />
+          </div>
+          <button class="btn btn-success mt-6 text-white" (click)="onRegistroUser()">Crear Cuenta Personal</button>
+        }
+
+        @if (vistaActual === 'registro-restaurante') {
+          <div class="h-96 overflow-y-auto pr-2 custom-scroll">
+            <p class="text-sm font-bold text-gray-500 mb-2">Datos del Dueño</p>
+            <div class="form-control mb-2">
+              <input type="text" placeholder="Tu Nombre" [(ngModel)]="registroRestauranteData.nombreDueno" class="input input-bordered input-sm" />
+            </div>
+            <div class="form-control mb-2">
+              <input type="email" placeholder="Tu Email" [(ngModel)]="registroRestauranteData.email" class="input input-bordered input-sm" />
+            </div>
+            <div class="form-control mb-4">
+              <input type="password" placeholder="Tu Contraseña" [(ngModel)]="registroRestauranteData.password" class="input input-bordered input-sm" />
+            </div>
+
+            <div class="divider"></div>
+
+            <p class="text-sm font-bold text-gray-500 mb-2">Datos del Negocio</p>
+            <div class="form-control mb-2">
+              <input type="text" placeholder="Nombre Restaurante" [(ngModel)]="registroRestauranteData.nombreRestaurante" class="input input-bordered input-sm" />
+            </div>
+            <div class="form-control mb-2">
+              <input type="text" placeholder="Dirección" [(ngModel)]="registroRestauranteData.direccion" class="input input-bordered input-sm" />
+            </div>
+            <div class="form-control mb-2">
+              <textarea placeholder="Descripción breve" [(ngModel)]="registroRestauranteData.descripcion" class="textarea textarea-bordered textarea-sm"></textarea>
+            </div>
+          </div>
+          <button class="btn btn-warning mt-4 w-full" (click)="onRegistroRestaurante()">Postular Restaurante</button>
+        }
+
+      </div>
     </div>
   </div>
 </div>
