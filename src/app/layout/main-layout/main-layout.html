@@ -30,26 +30,41 @@
   <div class="drawer-side">
     <label for="my-drawer-2" class="drawer-overlay"></label> 
     <ul class="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
-  <li class="mb-4 text-2xl font-bold text-primary px-4">ReservasApp</li>
-  
-  <li>
-    <a routerLink="/dashboard" routerLinkActive="active">
-      <i class="fa-solid fa-utensils"></i> Restaurantes
-    </a>
-  </li>
-  <li>
-    <a routerLink="/dashboard/mis-reservas" routerLinkActive="active">
-      <i class="fa-solid fa-list-check"></i> Mis Reservas
-    </a>
-  </li>
-  <li>
-  <a routerLink="/dashboard/admin-restaurante" routerLinkActive="active">
-    <i class="fa-solid fa-briefcase"></i> Admin Restaurante
-  </a>
-</li>
-  
-  <div class="divider"></div>
-  <li><a class="text-error"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
-</ul>
+      <li class="mb-4 text-2xl font-bold text-primary px-4">ReservasApp</li>
+      
+      @if (userRole === 'Cliente' || !userRole) {
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="fa-solid fa-utensils"></i> Restaurantes
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/mis-reservas" routerLinkActive="active">
+            <i class="fa-solid fa-list-check"></i> Mis Reservas
+          </a>
+        </li>
+      }
+
+      @if (userRole === 'Restaurante') {
+        <li class="menu-title">Administración</li> <li>
+          <a routerLink="/dashboard/admin-restaurante" routerLinkActive="active">
+            <i class="fa-solid fa-briefcase"></i> Mi Restaurante
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/solicitudes" routerLinkActive="active">
+            <i class="fa-solid fa-bell"></i> Solicitudes
+          </a>
+        </li>
+      }
+      
+      <div class="divider"></div>
+      
+      <li>
+        <a class="text-error" (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Salir
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
