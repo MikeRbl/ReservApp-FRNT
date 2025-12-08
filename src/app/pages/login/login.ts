@@ -18,11 +18,25 @@ export class Login {
   // Modelos de datos
   loginData = { email: '', password: '' };
   
-  registroUserData = { nombre: '', email: '', password: '', telefono: '' };
+  registroUserData = { 
+    nombre: '',
+    apellidoPaterno: '', 
+    apellidoMaterno: '',
+    email: '',
+    password: '',
+    telefono: '',
+    confirmPassword: '' 
+  };
   
   registroRestauranteData = { 
-    nombreDueno: '', email: '', password: '', telefonoDueno: '',
-    nombreRestaurante: '', direccion: '', descripcion: '', telefonoRestaurante: ''
+    nombreDueno: '',
+    email: '',
+    password: '',
+    telefonoDueno: '',
+    nombreRestaurante: '',
+    direccion: '',
+    descripcion: '',
+    telefonoRestaurante: ''
   };
 
   isLoading = false;
@@ -50,10 +64,28 @@ export class Login {
 
   // Acción Registro Usuario
   onRegistroUser() {
-    this.api.registroUsuario(this.registroUserData).subscribe({
+    // 1. Validar contraseñas
+    if (this.registroUserData.password !== this.registroUserData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+
+    // 2. Validar campos obligatorios (opcional pero recomendado)
+    if (!this.registroUserData.nombre || !this.registroUserData.apellidoPaterno || !this.registroUserData.email) {
+       alert('Por favor completa los campos obligatorios');
+       return;
+    }
+
+    // Enviamos los datos (La API ignorará 'confirmPassword' si no está en el DTO, o enviamos un objeto limpio)
+    const dataToSend = { ...this.registroUserData };
+    // @ts-ignore
+    delete dataToSend.confirmPassword; // Borramos este campo antes de enviar para limpiar
+
+    this.api.registroUsuario(dataToSend).subscribe({
       next: () => {
         alert('Cuenta creada exitosamente. Ahora inicia sesión.');
         this.vistaActual = 'login';
+        // Limpiar formulario opcionalmente
       },
       error: (err) => alert('Error al registrar: ' + err.error)
     });

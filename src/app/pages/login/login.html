@@ -53,49 +53,51 @@
         }
 
         @if (vistaActual === 'registro-user') {
-          <div class="form-control">
-            <label class="label"><span class="label-text">Nombre Completo</span></label>
-            <input type="text" [(ngModel)]="registroUserData.nombre" class="input input-bordered" />
-          </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">Email</span></label>
-            <input type="email" [(ngModel)]="registroUserData.email" class="input input-bordered" />
-          </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">Contraseña</span></label>
-            <input type="password" [(ngModel)]="registroUserData.password" class="input input-bordered" />
-          </div>
-          <button class="btn btn-success mt-6 text-white" (click)="onRegistroUser()">Crear Cuenta Personal</button>
-        }
+  <div class="h-96 overflow-y-auto pr-2 custom-scroll">
+    <div class="form-control">
+      <label class="label"><span class="label-text">Nombre(s) *</span></label>
+      <input type="text" [(ngModel)]="registroUserData.nombre" class="input input-bordered input-sm" placeholder="Ej. Juan Pablo"/>
+    </div>
+    
+    <div class="flex gap-2">
+      <div class="form-control w-1/2">
+        <label class="label"><span class="label-text">Apellido Paterno *</span></label>
+        <input type="text" [(ngModel)]="registroUserData.apellidoPaterno" class="input input-bordered input-sm" />
+      </div>
+      <div class="form-control w-1/2">
+        <label class="label"><span class="label-text">Apellido Materno</span></label>
+        <input type="text" [(ngModel)]="registroUserData.apellidoMaterno" class="input input-bordered input-sm" placeholder="(Opcional)"/>
+      </div>
+    </div>
 
-        @if (vistaActual === 'registro-restaurante') {
-          <div class="h-96 overflow-y-auto pr-2 custom-scroll">
-            <p class="text-sm font-bold text-gray-500 mb-2">Datos del Dueño</p>
-            <div class="form-control mb-2">
-              <input type="text" placeholder="Tu Nombre" [(ngModel)]="registroRestauranteData.nombreDueno" class="input input-bordered input-sm" />
-            </div>
-            <div class="form-control mb-2">
-              <input type="email" placeholder="Tu Email" [(ngModel)]="registroRestauranteData.email" class="input input-bordered input-sm" />
-            </div>
-            <div class="form-control mb-4">
-              <input type="password" placeholder="Tu Contraseña" [(ngModel)]="registroRestauranteData.password" class="input input-bordered input-sm" />
-            </div>
+    <div class="form-control">
+      <label class="label"><span class="label-text">Teléfono</span></label>
+      <input type="tel" [(ngModel)]="registroUserData.telefono" class="input input-bordered input-sm" placeholder="10 dígitos"/>
+    </div>
 
-            <div class="divider"></div>
+    <div class="form-control">
+      <label class="label"><span class="label-text">Email *</span></label>
+      <input type="email" [(ngModel)]="registroUserData.email" class="input input-bordered input-sm" />
+    </div>
 
-            <p class="text-sm font-bold text-gray-500 mb-2">Datos del Negocio</p>
-            <div class="form-control mb-2">
-              <input type="text" placeholder="Nombre Restaurante" [(ngModel)]="registroRestauranteData.nombreRestaurante" class="input input-bordered input-sm" />
-            </div>
-            <div class="form-control mb-2">
-              <input type="text" placeholder="Dirección" [(ngModel)]="registroRestauranteData.direccion" class="input input-bordered input-sm" />
-            </div>
-            <div class="form-control mb-2">
-              <textarea placeholder="Descripción breve" [(ngModel)]="registroRestauranteData.descripcion" class="textarea textarea-bordered textarea-sm"></textarea>
-            </div>
-          </div>
-          <button class="btn btn-warning mt-4 w-full" (click)="onRegistroRestaurante()">Postular Restaurante</button>
-        }
+    <div class="form-control">
+      <label class="label"><span class="label-text">Contraseña *</span></label>
+      <input type="password" [(ngModel)]="registroUserData.password" class="input input-bordered input-sm" />
+    </div>
+    
+    <div class="form-control">
+      <label class="label"><span class="label-text">Confirmar Contraseña *</span></label>
+      <input type="password" [(ngModel)]="registroUserData.confirmPassword" 
+             class="input input-bordered input-sm" 
+             [class.input-error]="registroUserData.password !== registroUserData.confirmPassword && registroUserData.confirmPassword.length > 0" />
+      @if (registroUserData.password !== registroUserData.confirmPassword && registroUserData.confirmPassword.length > 0) {
+        <span class="text-xs text-error mt-1">No coinciden</span>
+      }
+    </div>
+  </div>
+
+  <button class="btn btn-success mt-4 text-white w-full" (click)="onRegistroUser()">Crear Cuenta</button>
+}
 
       </div>
     </div>
