@@ -63,4 +63,28 @@ export class Api {
     return this.http.post(`${this.baseUrl}/auth/registro-restaurante`, datos);
   }
   
+  // --- MÉTODOS PARA SUPER ADMIN ---
+
+  // Obtener restaurantes pendientes de aprobación
+  getSolicitudesRegistro() {
+    // Nota: Necesitarás un interceptor para enviar el Token, 
+    // o agregarlo manualmente en los headers aquí si no tienes interceptor.
+    return this.http.get<any[]>(`${this.baseUrl}/admin/solicitudes`);
+  }
+
+  // Aprobar un restaurante
+  aprobarRestaurante(id: number) {
+    return this.http.put(`${this.baseUrl}/admin/aprobar/${id}`, {});
+  }
+  getRestaurantesActivos() {
+    return this.http.get<any[]>(`${this.baseUrl}/admin/activos`);
+  }
+
+  pausarRestaurante(id: number) {
+    return this.http.put(`${this.baseUrl}/admin/pausar/${id}`, {});
+  }
+
+  eliminarRestaurante(id: number) {
+    return this.http.delete(`${this.baseUrl}/admin/eliminar/${id}`);
+  }
 }

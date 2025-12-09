@@ -98,6 +98,35 @@
 
   <button class="btn btn-success mt-4 text-white w-full" (click)="onRegistroUser()">Crear Cuenta</button>
 }
+@if (vistaActual === 'registro-restaurante') {
+  <div class="h-96 overflow-y-auto pr-2 custom-scroll">
+    <p class="text-sm font-bold text-gray-500 mb-4 text-center">Datos del Negocio</p>
+    
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text">Nombre del Restaurante *</span></label>
+      <input type="text" [(ngModel)]="registroRestauranteData.nombreRestaurante" class="input input-bordered" placeholder="Ej. La Casa del Taco" />
+    </div>
+
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text">Teléfono de Contacto *</span></label>
+      <input type="tel" [(ngModel)]="registroRestauranteData.telefono" class="input input-bordered" placeholder="Para pedidos o reservas" />
+    </div>
+
+    <div class="form-control mb-3">
+      <label class="label"><span class="label-text">Email Corporativo *</span></label>
+      <input type="email" [(ngModel)]="registroRestauranteData.email" class="input input-bordered" />
+    </div>
+
+    <div class="form-control mb-4">
+      <label class="label"><span class="label-text">Contraseña *</span></label>
+      <input type="password" [(ngModel)]="registroRestauranteData.password" class="input input-bordered" />
+    </div>
+
+  </div>
+  <button class="btn btn-warning mt-4 w-full text-white" (click)="onRegistroRestaurante()">
+    <i class="fa-solid fa-paper-plane"></i> Enviar Solicitud
+  </button>
+}
 
       </div>
     </div>

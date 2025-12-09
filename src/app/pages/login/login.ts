@@ -6,7 +6,7 @@ import { Api } from '../../services/api';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink,CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -29,14 +29,10 @@ export class Login {
   };
   
   registroRestauranteData = { 
-    nombreDueno: '',
+    nombreRestaurante: '',
     email: '',
     password: '',
-    telefonoDueno: '',
-    nombreRestaurante: '',
-    direccion: '',
-    descripcion: '',
-    telefonoRestaurante: ''
+    telefono: ''
   };
 
   isLoading = false;
@@ -53,7 +49,12 @@ export class Login {
         localStorage.setItem('rol', res.rol);
         
         alert(`Bienvenido ${res.rol}`);
-        this.router.navigate(['/dashboard']);
+
+        if (res.rol === 'Admin') {
+        this.router.navigate(['/dashboard/admin-super']); // <--- Admin va a su oficina
+        } else {
+       this.router.navigate(['/dashboard']); // Los demás van al home normal
+        }
       },
       error: (err) => {
         alert('Error: ' + err.error);
@@ -97,6 +98,9 @@ export class Login {
       next: () => {
         alert('Solicitud enviada. Un administrador revisará tu restaurante.');
         this.vistaActual = 'login';
+        
+        // Limpiar formulario
+        this.registroRestauranteData = { nombreRestaurante: '', email: '', password: '', telefono: '' };
       },
       error: (err) => alert('Error al registrar: ' + err.error)
     });

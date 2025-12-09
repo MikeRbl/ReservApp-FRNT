@@ -1,0 +1,101 @@
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-primary">Panel de Control</h2>
+    <div class="stats shadow">
+      <div class="stat">
+        <div class="stat-title">Total Activos</div>
+        <div class="stat-value text-success">{{ activos.length }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Pendientes</div>
+        <div class="stat-value text-warning">{{ solicitudes.length }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div role="tablist" class="tabs tabs-lifted mb-6">
+    <a role="tab" class="tab" 
+       [class.tab-active]="tabActual === 'activos'"
+       (click)="tabActual = 'activos'">
+       🏢 Restaurantes Activos
+    </a>
+    <a role="tab" class="tab" 
+       [class.tab-active]="tabActual === 'pendientes'"
+       (click)="tabActual = 'pendientes'">
+       🔔 Solicitudes <span class="badge badge-sm badge-warning ml-2">{{ solicitudes.length }}</span>
+    </a>
+  </div>
+
+  @if (tabActual === 'activos') {
+    <div class="overflow-x-auto bg-base-100 p-4 rounded-box shadow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Restaurante</th>
+            <th>Contacto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (rest of activos; track rest.id) {
+            <tr>
+              <td>
+                <div class="font-bold">{{ rest.nombre }}</div>
+                <div class="text-xs opacity-50">{{ rest.direccion || 'Sin dirección' }}</div>
+              </td>
+              <td>
+                {{ rest.dueno?.nombre }}
+                <br/>
+                <span class="badge badge-ghost badge-sm">{{ rest.dueno?.email }}</span>
+              </td>
+              <td class="flex gap-2">
+                <button class="btn btn-warning btn-sm" (click)="pausar(rest.id)" title="Pausar y enviar a pendientes">
+                  <i class="fa-solid fa-pause"></i>
+                </button>
+                <button class="btn btn-error btn-sm text-white" (click)="eliminar(rest.id)" title="Eliminar definitivamente">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          }
+          @if (activos.length === 0) {
+            <tr><td colspan="3" class="text-center py-4">No hay restaurantes activos. Revisa las solicitudes.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (tabActual === 'pendientes') {
+    <div class="overflow-x-auto bg-base-100 p-4 rounded-box shadow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Candidato</th>
+            <th>Dueño</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (req of solicitudes; track req.id) {
+            <tr>
+              <td>
+                <div class="font-bold">{{ req.nombre }}</div>
+                <div class="text-xs text-info">Pendiente de aprobación</div>
+              </td>
+              <td>{{ req.dueno?.nombre }}<br/>{{ req.dueno?.email }}</td>
+              <td>
+                <button class="btn btn-success btn-sm text-white" (click)="aprobar(req.id)">
+                  <i class="fa-solid fa-check"></i> Aprobar
+                </button>
+              </td>
+            </tr>
+          }
+          @if (solicitudes.length === 0) {
+            <tr><td colspan="3" class="text-center py-4">¡Todo al día! No hay solicitudes nuevas.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

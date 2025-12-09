@@ -4,6 +4,7 @@ import { MainLayout } from './layout/main-layout/main-layout';
 import { Login } from './pages/login/login';
 import { MisReservas } from './pages/mis-reservas/mis-reservas';
 import { AdminRestaurante } from './pages/admin-restaurante/admin-restaurante';
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
          component: MisReservas },
       {path: 'admin-restaurante',
         component: AdminRestaurante
+      },
+      {
+         path: 'admin-super',
+          component: AdminDashboard 
       },
 
     ]

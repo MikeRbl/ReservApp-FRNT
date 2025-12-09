@@ -65,6 +65,14 @@
           <i class="fa-solid fa-right-from-bracket"></i> Salir
         </a>
       </li>
+      @if (userRole === 'Admin') {
+        <li class="menu-title">Super Admin</li>
+        <li>
+        <a routerLink="/dashboard/admin-super" routerLinkActive="active">
+        <i class="fa-solid fa-gauge-high"></i> Panel de Control
+        </a>
+        </li>
+      }
     </ul>
   </div>
 </div>
